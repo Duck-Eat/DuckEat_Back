@@ -1,0 +1,236 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "DuckEat API",
+        "description": "API documentation for DuckEat API",
+        "contact": {
+            "email": "vincent.grande@outlook.fr"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/DuckEat_Back/public/": {},
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "AuthController"
+                ],
+                "summary": "Returns json token",
+                "operationId": "8a56853624e025573120a09a4c75d468",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Nom",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Mot de passe",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password_confirmed",
+                        "in": "query",
+                        "description": "Confirmation mot de passe",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns json token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errcode": {
+                                            "description": "The response code",
+                                            "type": "integer"
+                                        },
+                                        "errmsg": {
+                                            "description": "The response message",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "The response data",
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "errcode": 1,
+                                        "errmsg": "ok",
+                                        "data": []
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "AuthController"
+                ],
+                "summary": "Returns user infos & json token",
+                "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Mot de passe",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns user infos & json token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errcode": {
+                                            "description": "The response code",
+                                            "type": "integer"
+                                        },
+                                        "errmsg": {
+                                            "description": "The response message",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "The response data",
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "errcode": 1,
+                                        "errmsg": "ok",
+                                        "data": []
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "AuthController"
+                ],
+                "summary": "Returns string",
+                "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
+                "responses": {
+                    "200": {
+                        "description": "Returns string",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errcode": {
+                                            "description": "The response code",
+                                            "type": "integer"
+                                        },
+                                        "errmsg": {
+                                            "description": "The response message",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "The response data",
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "errcode": 1,
+                                        "errmsg": "ok",
+                                        "data": []
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/test": {
+            "get": {
+                "tags": [
+                    "TestController"
+                ],
+                "summary": "Returns test string",
+                "operationId": "7a09caa81b6dfd4c5087d06d7689eaa8",
+                "responses": {
+                    "200": {
+                        "description": "Returns test string",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errcode": {
+                                            "description": "The response code",
+                                            "type": "integer"
+                                        },
+                                        "errmsg": {
+                                            "description": "The response message",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "The response data",
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "errcode": 1,
+                                        "errmsg": "ok",
+                                        "data": []
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
