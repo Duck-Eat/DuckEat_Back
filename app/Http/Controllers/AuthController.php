@@ -45,7 +45,7 @@ class AuthController extends Controller
      *     )
      *   ),
      *   @OA\Parameter(
-     *     name="password_confirmed",
+     *     name="password_confirmation",
      *     description="Confirmation mot de passe",
      *     required=true,
      *     in="query",

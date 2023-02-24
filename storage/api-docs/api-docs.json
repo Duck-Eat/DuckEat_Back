@@ -46,7 +46,7 @@
                         }
                     },
                     {
-                        "name": "password_confirmed",
+                        "name": "password_confirmation",
                         "in": "query",
                         "description": "Confirmation mot de passe",
                         "required": true,
