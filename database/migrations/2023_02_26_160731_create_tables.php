@@ -22,8 +22,8 @@ return new class extends Migration
         Schema::create('Restaurant', function (Blueprint $table) {
             $table->id('id_Restaurant');
             $table->string('nom_Restaurant');
-            $table->string('horaires_Restaurant')->nullable();
-            $table->string('CP_Restaurant');
+            $table->json('horaires_Restaurant')->nullable();
+            $table->integer('CP_Restaurant');
             $table->string('adresse_Restaurant');
             $table->string('ville_Restaurant');
             $table->timestamps();
@@ -39,8 +39,7 @@ return new class extends Migration
         // Table "Messages"
         Schema::create('Messages', function (Blueprint $table) {
             $table->id('id_Messages');
-            $table->text('message_Messages');
-            $table->timestamp('date_Messages')->nullable();
+            $table->longText('message_Messages');
             $table->foreignId('id_Utilisateur')->constrained('users', 'id_Utilisateur');
             $table->foreignId('id_Utilisateur_recoit')->constrained('users', 'id_Utilisateur');
             $table->timestamps();
