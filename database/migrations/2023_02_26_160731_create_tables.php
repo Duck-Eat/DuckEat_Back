@@ -11,12 +11,13 @@ return new class extends Migration
         // Table "Users"
         Schema::create('users', function (Blueprint $table) {
             $table->id('id_Utilisateur');
-            $table->string('mail_Utilisateur');
-            $table->string('nom_Utilisateur');
-            $table->string('prenom_Utilisateur');
+            $table->string('email');
+            $table->string('name');
+            $table->string('password');
             $table->integer('temps_moyen_Utilisateur')->nullable();
             $table->timestamps();
         });
+
         // Table "Restaurant"
         Schema::create('Restaurant', function (Blueprint $table) {
             $table->id('id_Restaurant');
