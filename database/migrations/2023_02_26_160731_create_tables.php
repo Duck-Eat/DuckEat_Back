@@ -69,9 +69,10 @@ return new class extends Migration
         });
 
         Schema::create('EstDeType', function (Blueprint $table) {
+            $table->id('id_EstDeType');
             $table->foreignId('id_Restaurant')->constrained('Restaurant', 'id_Restaurant');
             $table->foreignId('id_Types_restaurant')->constrained('Types_restaurant', 'id_Types_restaurant');
-            $table->primary(['id_Restaurant', 'id_Types_restaurant']);
+            //$table->primary(['id_Restaurant', 'id_Types_restaurant']);
         });
     }
 

@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class EstDeType extends Model
 {
     use HasFactory;
-    protected $table = 'etre';
+    protected $table = 'EstDeType';
     public $timestamps = false;
-
+    protected $fillable = [
+        'id_Restaurant',
+        'id_Types_Restaurant'
+    ];
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class, 'id_Restaurant');
