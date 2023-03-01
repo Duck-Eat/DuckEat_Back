@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\TypeRestaurantController;
+use App\Http\Controllers\RestaurantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +24,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::post('/typerestaurant/store', [TypeRestaurantController::class,'store']);
 
+Route::post('/restaurant/store', [RestaurantController::class,'store']);

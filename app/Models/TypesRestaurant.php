@@ -12,6 +12,10 @@ class TypesRestaurant extends Model
 
     protected $primaryKey = 'id_Types_restaurant';
 
+    protected $fillable = [
+        'type_Types_restaurant'
+    ];
+
     public function restaurants()
     {
         return $this->belongsToMany(Restaurant::class, 'Manager', 'id_Types_restaurant', 'id_Restaurant');

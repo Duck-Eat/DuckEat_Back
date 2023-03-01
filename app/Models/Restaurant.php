@@ -12,6 +12,16 @@ class Restaurant extends Model
 
     protected $primaryKey = 'id_Restaurant';
 
+    protected $fillable = [
+        'image_Restaurant',
+        'nom_Restaurant',
+        'horaires_Restaurant',
+        'CP_Restaurant',
+        'adresse_Restaurant',
+        'ville_Restaurant',
+        'id_Utilisateur',
+        'types_restaurant',
+    ];
     public function user()
     {
         return $this->belongsTo(User::class, 'id_Utilisateur');

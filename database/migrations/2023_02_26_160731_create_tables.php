@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('CP_Restaurant');
             $table->string('adresse_Restaurant');
             $table->string('ville_Restaurant');
+            $table->string('image_Restaurant');
             $table->timestamps();
         });
 
