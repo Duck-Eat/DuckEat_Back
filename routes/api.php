@@ -20,10 +20,20 @@ use App\Http\Controllers\RestaurantController;
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/test', [TestController::class,'test']);
     Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::post('/typerestaurant/store', [TypeRestaurantController::class,'store']);
+    Route::post('/typerestaurant/update', [TypeRestaurantController::class,'update']);
+    Route::get('/typerestaurant/get', [TypeRestaurantController::class,'get']);
+    Route::delete('/typerestaurant/delete', [TypeRestaurantController::class,'delete']);
+
+    Route::post('/restaurant/store', [RestaurantController::class,'store']);
+    Route::post('/restaurant/update', [RestaurantController::class,'update']);
+    Route::get('/restaurant/get', [RestaurantController::class,'get']);
+    Route::delete('/restaurant/delete', [RestaurantController::class,'delete']);
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/typerestaurant/store', [TypeRestaurantController::class,'store']);
+
 
 Route::post('/restaurant/store', [RestaurantController::class,'store']);

@@ -103,7 +103,10 @@ class AuthController extends Controller
 
         $token = $user->createToken('DuckEat')->plainTextToken;
 
-        return response()->json(['token' => $token], 201);
+        return response()->json([
+            'user' => $user,
+            'token' => $token
+        ], 201);
     }
     /**
      * Returns user infos & json token

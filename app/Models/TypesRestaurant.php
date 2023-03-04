@@ -15,7 +15,10 @@ class TypesRestaurant extends Model
     protected $fillable = [
         'type_Types_restaurant'
     ];
-
+    protected $hidden = [
+        'updated_at',
+        'created_at'
+    ];
     public function restaurants()
     {
         return $this->belongsToMany(Restaurant::class, 'Manager', 'id_Types_restaurant', 'id_Restaurant');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Restaurant;
 use App\Models\EstDeType;
@@ -20,7 +21,6 @@ class RestaurantController extends Controller
             'types_restaurant' => 'string'
         ]);
         $image_path = $request->file('image_Restaurant')->store('image', 'public');
-
         $restaurant = Restaurant::create([
             'nom_Restaurant' => $validatedData['nom_Restaurant'],
             'horaires_Restaurant' => $validatedData['horaires_Restaurant'],
@@ -31,14 +31,34 @@ class RestaurantController extends Controller
         ]);
         $types = explode(",", $validatedData['types_restaurant']);
         foreach ($types as $id){
-            $estdetype = EstDeType::create([
+            EstDeType::create([
                 'id_Restaurant' => $restaurant->id_Restaurant,
                 'id_Types_Restaurant' => $id
-        ]);
+            ]);
         }
-
         return response()->json([
             "message" => "Restaurant created."
         ], 201);
+    }
+    public function get(Request $request): JsonResponse{
+        if($request['id']){
+            $restaurants = Restaurant::where('id_Restaurant', $request['id'])->get();
+        }else{
+            $restaurants = Restaurant::all();
+        }
+        return response()->json([
+            'restaurants' => $restaurants
+        ],200);
+    }
+    public function update(Request $request): JsonResponse{
+
+        return response()->json([
+            'message' => 'update function not implemented'
+        ],200);
+    }
+    public function delete(Request $request): JsonResponse{
+        return response()->json([
+            'message' => 'delete function not implemented'
+        ],200);
     }
 }

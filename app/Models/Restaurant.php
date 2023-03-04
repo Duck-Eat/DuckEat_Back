@@ -22,6 +22,11 @@ class Restaurant extends Model
         'id_Utilisateur',
         'types_restaurant',
     ];
+    protected $hidden = [
+        'updated_at',
+        'created_at'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'id_Utilisateur');
