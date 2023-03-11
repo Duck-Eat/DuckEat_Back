@@ -4,41 +4,36 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Restaurant extends Model
 {
     use HasFactory;
-    protected $table = 'Restaurant';
-
-    protected $primaryKey = 'id_Restaurant';
 
     protected $fillable = [
-        'image_Restaurant',
-        'nom_Restaurant',
-        'horaires_Restaurant',
-        'CP_Restaurant',
-        'adresse_Restaurant',
-        'ville_Restaurant',
-        'id_Utilisateur',
-        'types_restaurant',
+        'name', 'user_id', 'hours', 'postal_code', 'address', 'city', 'image'
     ];
+
     protected $hidden = [
-        'updated_at',
-        'created_at'
+        'id', 'created_at', 'updated_at'
     ];
 
-    public function user()
+    protected $casts = [];
+
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id_Utilisateur');
+        return $this->belongsTo(User::class);
     }
 
-    public function types()
+    public function types(): BelongsToMany
     {
-        return $this->belongsToMany(TypesRestaurant::class, 'Manager', 'id_Restaurant', 'id_Types_restaurant');
+        return $this->belongsToMany(Type::class, 'restaurants_types', 'restaurant_id', 'type_id');
     }
 
-    public function notes()
+    public function notes(): BelongsToMany
     {
-        return $this->hasMany(Note::class, 'id_Restaurant');
+        return $this->belongsToMany(Note::class, 'notes', 'restaurant_id', 'user_id');
     }
 }

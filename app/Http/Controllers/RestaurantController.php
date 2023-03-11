@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TypesRestaurant;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Restaurant;
@@ -51,7 +52,45 @@ class RestaurantController extends Controller
         ],200);
     }
     public function update(Request $request): JsonResponse{
+        $validatedData = $request->validate([
+            'id_Restaurant' => 'required|int',
+            //'image_Restaurant' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'nom_Restaurant' => 'required|string|max:255',
+            'horaires_Restaurant' => 'required|string',
+            'CP_Restaurant' => 'required|string|max:10',
+            'adresse_Restaurant' => 'required|string|max:255',
+            'ville_Restaurant' => 'required|string|max:255',
+            'types_restaurant' => 'string'
+        ]);
 
+        $restaurant = Restaurant::findOrFail($validatedData['id_Restaurant']);
+        $restaurant->update([
+            //'image_Restaurant' => $validatedData['ville_Restaurant'],
+            'nom_Restaurant' => $validatedData['nom_Restaurant'],
+            'horaires_Restaurant' => $validatedData['horaires_Restaurant'],
+            'CP_Restaurant' => $validatedData['CP_Restaurant'],
+            'adresse_Restaurant' => $validatedData['adresse_Restaurant'],
+            'ville_Restaurant' => $validatedData['ville_Restaurant'],
+        ]);
+
+        // dd($restaurant->types());
+        $types = explode(",", $validatedData['types_restaurant']);
+        // dd($types);
+        $typesEntities = TypesRestaurant::findMany($types);
+        // $typesEntities = EstDeType::with('Types_restaurant')->where(['Types_restaurant.type_Types_restaurant'])->get();
+        // dd($typesEntities);
+
+        foreach ($typesEntities as $typeRestaurant) {
+            $restaurant->types()->save($typeRestaurant);
+        }
+
+//        EstDeType::where('id_Restaurant',$validatedData['id_Restaurant'])->delete();
+//        foreach ($types as $id){
+//            EstDeType::create([
+//                'id_Restaurant' => $validatedData['id_Restaurant'],
+//                'id_Types_Restaurant' => $id
+//            ]);
+//        }
         return response()->json([
             'message' => 'update function not implemented'
         ],200);

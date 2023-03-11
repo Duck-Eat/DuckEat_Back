@@ -2,23 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Preference extends Model
-{
-    use HasFactory;
-    protected $table = 'Preferences';
+class Preference extends Model {
 
-    public $incrementing = false;
-
-    public function user()
+    public function types(): BelongsToMany
     {
-        return $this->belongsTo(User::class, 'id_Utilisateur');
-    }
-
-    public function type()
-    {
-        return $this->belongsTo(TypesRestaurant::class, 'id_Types_restaurant');
+        return $this->belongsTo(Type::class);
     }
 }

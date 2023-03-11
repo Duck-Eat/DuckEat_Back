@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EstDeType;
+use App\Models\Preference;
 use App\Models\TypesRestaurant;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -47,6 +49,8 @@ class TypeRestaurantController extends Controller
         $validatedData = $request->validate([
             'id' => 'required|int',
         ]);
+        EstDeType::where('id_Types_restaurant', $validatedData['id'])->delete();
+        Preference::where('id_Types_restaurant', $validatedData['id'])->delete();
         TypesRestaurant::where('id_Types_restaurant', $validatedData['id'])->delete();
         return response()->json([
             'message' => 'Type successfully deleted'

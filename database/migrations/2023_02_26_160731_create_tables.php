@@ -8,84 +8,70 @@ return new class extends Migration
 {
     public function up()
     {
-        // Table "Users"
+        // Users
         Schema::create('users', function (Blueprint $table) {
-            $table->id('id_Utilisateur');
+            $table->id();
             $table->string('email');
             $table->string('name');
             $table->string('password');
-            $table->integer('temps_moyen_Utilisateur')->nullable();
+            $table->integer('average_time')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
 
-        // Table "Restaurant"
-        Schema::create('Restaurant', function (Blueprint $table) {
-            $table->id('id_Restaurant');
-            $table->string('nom_Restaurant');
-            $table->json('horaires_Restaurant')->nullable();
-            $table->integer('CP_Restaurant');
-            $table->string('adresse_Restaurant');
-            $table->string('ville_Restaurant');
-            $table->string('image_Restaurant');
+        // Messages
+        Schema::create('messages', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('from_user_id')->constrained('users');
+            $table->longText('content');
             $table->timestamps();
         });
 
-        // Table "Types_restaurant"
-        Schema::create('Types_restaurant', function (Blueprint $table) {
-            $table->id('id_Types_restaurant');
-            $table->string('type_Types_restaurant');
+        // Restaurants
+        Schema::create('restaurants', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->foreignId('user_id')->constrained();
+            $table->json('hours')->nullable();
+            $table->string('postal_code');
+            $table->string('address');
+            $table->string('city');
+            $table->string('image');
             $table->timestamps();
         });
 
-        // Table "Messages"
-        Schema::create('Messages', function (Blueprint $table) {
-            $table->id('id_Messages');
-            $table->longText('message_Messages');
-            $table->foreignId('id_Utilisateur')->constrained('users', 'id_Utilisateur');
-            $table->foreignId('id_Utilisateur_recoit')->constrained('users', 'id_Utilisateur');
+        // Types
+        Schema::create('types', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
             $table->timestamps();
         });
 
-        // Table "Preferences"
-        Schema::create('Preferences', function (Blueprint $table) {
-            $table->foreignId('id_Utilisateur')->constrained('users', 'id_Utilisateur');
-            $table->foreignId('id_Types_restaurant')->constrained('Types_restaurant', 'id_Types_restaurant');
-            $table->primary(['id_Utilisateur', 'id_Types_restaurant']);
+        // Many to many between restaurants and types
+        Schema::create('restaurants_types', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
+            $table->foreignId('type_id')->constrained()->onDelete('cascade');
         });
 
-        // Table "Manager"
-        Schema::create('Manager', function (Blueprint $table) {
-            $table->foreignId('id_Utilisateur')->constrained('users', 'id_Utilisateur');
-            $table->foreignId('id_Restaurant')->constrained('Restaurant', 'id_Restaurant');
-            $table->primary(['id_Utilisateur', 'id_Restaurant']);
+        Schema::create('users_types', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('type_id')->constrained()->onDelete('cascade');
         });
 
-        // Table "Note"
-        Schema::create('Note', function (Blueprint $table) {
-            $table->foreignId('id_Utilisateur')->constrained('users', 'id_Utilisateur');
-            $table->foreignId('id_Restaurant')->constrained('Restaurant', 'id_Restaurant');
-            $table->integer('note_Note');
+        Schema::create('notes', function(Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('restaurant_id')->constrained();
+            $table->integer('note');
             $table->timestamps();
-        });
 
-        Schema::create('EstDeType', function (Blueprint $table) {
-            $table->id('id_EstDeType');
-            $table->foreignId('id_Restaurant')->constrained('Restaurant', 'id_Restaurant');
-            $table->foreignId('id_Types_restaurant')->constrained('Types_restaurant', 'id_Types_restaurant');
-            //$table->primary(['id_Restaurant', 'id_Types_restaurant']);
+            $table->unique(['user_id', 'restaurant_id']);
         });
     }
 
-    public function down()
-    {
-        Schema::dropIfExists('Note');
-        Schema::dropIfExists('Manager');
-        Schema::dropIfExists('Preferences');
-        Schema::dropIfExists('Messages');
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('Types_restaurant');
-        Schema::dropIfExists('Restaurant');
-        Schema::dropIfExists('EstDeType');
-
-    }
+    public function down() {}
 };
