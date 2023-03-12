@@ -2,102 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TypesRestaurant;
-use Illuminate\Http\JsonResponse;
+use App\Http\Resources\RestaurantCollection;
+use App\Http\Resources\RestaurantResource;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use App\Models\Restaurant;
 use App\Models\EstDeType;
+use Illuminate\Support\Facades\Auth;
 
 class RestaurantController extends Controller
 {
-    public function store(Request $request): \Illuminate\Http\JsonResponse
+    public function index()
     {
-        $validatedData = $request->validate([
-            'image_Restaurant' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            'nom_Restaurant' => 'required|string|max:255',
-            'horaires_Restaurant' => 'required|string',
-            'CP_Restaurant' => 'required|string|max:10',
-            'adresse_Restaurant' => 'required|string|max:255',
-            'ville_Restaurant' => 'required|string|max:255',
-            'types_restaurant' => 'string'
-        ]);
-        $image_path = $request->file('image_Restaurant')->store('image', 'public');
-        $restaurant = Restaurant::create([
-            'nom_Restaurant' => $validatedData['nom_Restaurant'],
-            'horaires_Restaurant' => $validatedData['horaires_Restaurant'],
-            'CP_Restaurant' => $validatedData['CP_Restaurant'],
-            'adresse_Restaurant' => $validatedData['adresse_Restaurant'],
-            'ville_Restaurant' => $validatedData['ville_Restaurant'],
-            'image_Restaurant' => "/storage/".$image_path,
-        ]);
-        $types = explode(",", $validatedData['types_restaurant']);
-        foreach ($types as $id){
-            EstDeType::create([
-                'id_Restaurant' => $restaurant->id_Restaurant,
-                'id_Types_Restaurant' => $id
-            ]);
-        }
-        return response()->json([
-            "message" => "Restaurant created."
-        ], 201);
+        return new RestaurantCollection(
+            Restaurant::paginate()
+        );
     }
-    public function get(Request $request): JsonResponse{
-        if($request['id']){
-            $restaurants = Restaurant::where('id_Restaurant', $request['id'])->get();
-        }else{
-            $restaurants = Restaurant::all();
-        }
-        return response()->json([
-            'restaurants' => $restaurants
-        ],200);
+
+    public function store(Request $request)
+    {
+        $restaurant = Restaurant::create(array_merge(
+            $request->all(), ['user_id' => Auth::id() ?? 3]
+        ));
+
+        return new RestaurantResource(
+            $restaurant
+        );
     }
-    public function update(Request $request): JsonResponse{
-        $validatedData = $request->validate([
-            'id_Restaurant' => 'required|int',
-            //'image_Restaurant' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            'nom_Restaurant' => 'required|string|max:255',
-            'horaires_Restaurant' => 'required|string',
-            'CP_Restaurant' => 'required|string|max:10',
-            'adresse_Restaurant' => 'required|string|max:255',
-            'ville_Restaurant' => 'required|string|max:255',
-            'types_restaurant' => 'string'
-        ]);
 
-        $restaurant = Restaurant::findOrFail($validatedData['id_Restaurant']);
-        $restaurant->update([
-            //'image_Restaurant' => $validatedData['ville_Restaurant'],
-            'nom_Restaurant' => $validatedData['nom_Restaurant'],
-            'horaires_Restaurant' => $validatedData['horaires_Restaurant'],
-            'CP_Restaurant' => $validatedData['CP_Restaurant'],
-            'adresse_Restaurant' => $validatedData['adresse_Restaurant'],
-            'ville_Restaurant' => $validatedData['ville_Restaurant'],
-        ]);
+    public function show(Request $request, Restaurant $restaurant)
+    {
+        return new RestaurantResource($restaurant);
+    }
 
-        // dd($restaurant->types());
-        $types = explode(",", $validatedData['types_restaurant']);
-        // dd($types);
-        $typesEntities = TypesRestaurant::findMany($types);
-        // $typesEntities = EstDeType::with('Types_restaurant')->where(['Types_restaurant.type_Types_restaurant'])->get();
-        // dd($typesEntities);
+    public function update(Request $request, Restaurant $restaurant)
+    {
+        $restaurant->updateOrFail($request->all());
 
-        foreach ($typesEntities as $typeRestaurant) {
-            $restaurant->types()->save($typeRestaurant);
+        if (isset($request->types) && !empty($request->types)) {
+            $types = explode(',', $request->types);
+            $restaurant->types()->sync(Type::findMany($types));
         }
 
-//        EstDeType::where('id_Restaurant',$validatedData['id_Restaurant'])->delete();
-//        foreach ($types as $id){
-//            EstDeType::create([
-//                'id_Restaurant' => $validatedData['id_Restaurant'],
-//                'id_Types_Restaurant' => $id
-//            ]);
-//        }
-        return response()->json([
-            'message' => 'update function not implemented'
-        ],200);
+        return new RestaurantResource($restaurant->refresh());
     }
-    public function delete(Request $request): JsonResponse{
+
+    public function destroy(Request $request, Restaurant $restaurant)
+    {
         return response()->json([
-            'message' => 'delete function not implemented'
-        ],200);
+            'result' => $restaurant->deleteOrFail()
+        ]);
     }
 }

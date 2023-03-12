@@ -1,10 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\TestController;
-use App\Http\Controllers\TypeRestaurantController;
+use App\Http\Controllers\TypeController;
 use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,16 +17,11 @@ use App\Http\Controllers\RestaurantController;
 */
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-//    Route::get('/test', [TestController::class,'test']);
-//    Route::post('/logout', [AuthController::class, 'logout']);
-//
-//    Route::post('/typerestaurant/store', [TypeRestaurantController::class,'store']);
-//    Route::post('/typerestaurant/update', [TypeRestaurantController::class,'update']);
-//    Route::get('/typerestaurant/get', [TypeRestaurantController::class,'get']);
-//    Route::delete('/typerestaurant/delete', [TypeRestaurantController::class,'delete']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 
+    Route::apiResource('/typerestaurant', TypeController::class);
     Route::apiResource('/restaurants', RestaurantController::class);
 });
-//Route::post('/register', [AuthController::class, 'register']);
-//Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
