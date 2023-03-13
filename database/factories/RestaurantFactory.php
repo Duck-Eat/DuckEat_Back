@@ -19,6 +19,7 @@ class RestaurantFactory extends Factory
     {
         return [
             'name' => fake()->company(),
+            'description' => fake()->text(),
             'hours' => json_encode([]),
             'postal_code' => fake()->postcode(),
             'address' => fake()->streetAddress(),

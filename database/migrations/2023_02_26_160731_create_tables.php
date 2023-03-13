@@ -33,6 +33,7 @@ return new class extends Migration
         Schema::create('restaurants', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->longText('description')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->json('hours')->nullable();
             $table->string('postal_code');
