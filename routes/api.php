@@ -19,7 +19,7 @@ use App\Http\Controllers\AuthController;
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::apiResource('/typerestaurant', TypeController::class);
+    Route::apiResource('/types', TypeController::class);
     Route::apiResource('/restaurants', RestaurantController::class);
 });
 Route::post('/register', [AuthController::class, 'register']);
