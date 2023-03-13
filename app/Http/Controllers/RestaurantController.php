@@ -16,7 +16,8 @@ class RestaurantController extends Controller
     public function index(): RestaurantCollection
     {
         return new RestaurantCollection(
-            Restaurant::paginate()
+            //Restaurant::paginate()
+            Restaurant::all()
         );
     }
 
@@ -53,5 +54,14 @@ class RestaurantController extends Controller
         return response()->json([
             'result' => $restaurant->deleteOrFail()
         ]);
+    }
+
+    public function uploadImage(Request $request,Restaurant $restaurant)
+    {
+        $image_path = $request->file('image')->store('image', 'public');
+        $restaurant->update([
+            'image' => $image_path
+        ]);
+        return new RestaurantResource($restaurant);
     }
 }

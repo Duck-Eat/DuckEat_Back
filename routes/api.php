@@ -20,6 +20,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::apiResource('/types', TypeController::class);
+    Route::post('/restaurants/uploadImage/{restaurant}', [RestaurantController::class,'uploadImage']);
     Route::apiResource('/restaurants', RestaurantController::class);
 });
 Route::post('/register', [AuthController::class, 'register']);
