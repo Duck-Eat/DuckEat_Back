@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PreferenceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\RestaurantController;
@@ -22,6 +23,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('/types', TypeController::class);
     Route::post('/restaurants/uploadImage/{restaurant}', [RestaurantController::class,'uploadImage']);
     Route::apiResource('/restaurants', RestaurantController::class);
+    Route::apiResource('/preferences', PreferenceController::class);
+
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

@@ -22,7 +22,7 @@ class Type extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(Preference::class, 'users_types');
+        return $this->belongsToMany(Type::class, 'users_types');
     }
 
     public function restaurants(): BelongsToMany

@@ -48,6 +48,6 @@ class User extends Authenticatable
 
     public function types(): BelongsToMany
     {
-        return $this->belongsToMany(Preference::class, 'users_types', 'user_id', 'type_id');
+        return $this->belongsToMany(Type::class, 'users_types', 'user_id', 'type_id');
     }
 }

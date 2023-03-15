@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\RestaurantCollection;
 use App\Http\Resources\RestaurantResource;
+use App\Models\EstDeType;
+use App\Models\Restaurant;
 use App\Models\Type;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Models\Restaurant;
-use App\Models\EstDeType;
 use Illuminate\Support\Facades\Auth;
 
 class RestaurantController extends Controller
