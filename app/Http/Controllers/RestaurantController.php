@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\RestaurantCollection;
 use App\Http\Resources\RestaurantResource;
+use App\Http\Resources\TypeCollection;
 use App\Models\EstDeType;
 use App\Models\Restaurant;
 use App\Models\Type;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use JetBrains\PhpStorm\NoReturn;
 
 class RestaurantController extends Controller
 {
