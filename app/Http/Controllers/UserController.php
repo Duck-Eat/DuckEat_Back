@@ -17,14 +17,14 @@ class UserController extends Controller
         if(!$types->containsOneItem() || $types[0] == "1"){
             $restaurant = Restaurant::join(
                 'restaurants_types',
-                'restaurants_types.type_id',
+                'restaurants_types.restaurant_id',
                 '=',
                 'restaurants.id')
                 ->get();
         }else{
             $restaurant = Restaurant::join(
                 'restaurants_types',
-                'restaurants_types.type_id',
+                'restaurants_types.restaurant_id',
                 '=',
                 'restaurants.id')
                 ->whereIn('restaurants_types.type_id', $types)

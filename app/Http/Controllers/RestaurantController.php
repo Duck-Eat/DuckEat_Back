@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\NoteCollection;
+use App\Http\Resources\NoteResource;
 use App\Http\Resources\RestaurantCollection;
 use App\Http\Resources\RestaurantResource;
 use App\Http\Resources\TypeCollection;
 use App\Models\EstDeType;
+use App\Models\Note;
 use App\Models\Restaurant;
 use App\Models\Type;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -65,5 +69,32 @@ class RestaurantController extends Controller
             'image' => $image_path
         ]);
         return new RestaurantResource($restaurant);
+    }
+
+    public function addNote(Request $request)
+    {
+        try
+        {
+            $note = Note::create(array_merge(
+                $request->all(), ['user_id' => Auth::id() ?? 3]
+            ));
+            return new NoteResource(
+                $note
+            );
+        }
+        catch (Exception $e)
+        {
+            return response()->json([
+                "message" => "Impossible de noter plusieurs fois le meme restaurant."
+            ],403);
+        }
+
+
+    }
+    public function getNote(Request $request, Restaurant $restaurant)
+    {
+        return new NoteCollection(
+            Note::where('restaurant_id',  $restaurant->id)->get()
+        );
     }
 }

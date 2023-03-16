@@ -22,13 +22,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::apiResource('/types', TypeController::class);
-    Route::post('/restaurants/uploadImage/{restaurant}', [RestaurantController::class,'uploadImage']);
+
     Route::apiResource('/restaurants', RestaurantController::class);
+    Route::post('/restaurants/uploadImage/{restaurant}', [RestaurantController::class,'uploadImage']);
+    Route::post('/restaurants/note/',[RestaurantController::class, 'addNote']);
+    Route::get('/restaurants/note/{restaurant}',[RestaurantController::class, 'getNote']);
+
     Route::apiResource('/preferences', PreferenceController::class);
 
     Route::get('/user/random', [UserController::class, 'randomRestaurant']);
-
-
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

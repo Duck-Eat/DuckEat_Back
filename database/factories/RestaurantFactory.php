@@ -17,6 +17,8 @@ class RestaurantFactory extends Factory
      */
     public function definition()
     {
+        $lang = 33.7490;
+        $long = -84.3880;
         return [
             'name' => fake()->company(),
             'description' => fake()->text(),
@@ -24,7 +26,7 @@ class RestaurantFactory extends Factory
             'postal_code' => fake()->postcode(),
             'address' => fake()->streetAddress(),
             'city' => fake()->city(),
-            'image' => fake()->url()
+            'image' => fake()->url(),
         ];
     }
 }
