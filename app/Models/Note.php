@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Note extends Model {
     use HasFactory;
     protected $fillable = [
-        'note', 'user_id', 'restaurant_id'
+        'note', 'comment', 'user_id', 'restaurant_id'
     ];
     public function restaurant(): BelongsTo
     {

@@ -19,6 +19,7 @@ class NoteResource extends JsonResource
             'userId' => $this->user_id,
             'restaurantId' => $this->restaurant_id,
             'note' => $this->note,
+            'comment' => $this->comment,
         ];
     }
 }
