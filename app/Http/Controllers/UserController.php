@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function randomRestaurant(Request $request) : RestaurantResource
+    public function randomRestaurant(Request $request) : RestaurantCollection
     {
         $types = Auth::user()->types->pluck('id');
 
@@ -30,6 +30,6 @@ class UserController extends Controller
                 ->whereIn('restaurants_types.type_id', $types)
                 ->get();
         }
-        return new RestaurantResource($restaurant->random());
+        return new RestaurantCollection($restaurant->random(10));
     }
 }

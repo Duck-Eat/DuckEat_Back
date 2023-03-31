@@ -15,15 +15,15 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use JetBrains\PhpStorm\NoReturn;
 
 class RestaurantController extends Controller
 {
     public function index(): RestaurantCollection
     {
+        $perPage = 10;
         return new RestaurantCollection(
-            //Restaurant::paginate()
-            Restaurant::all()
+            Restaurant::paginate($perPage)
+            //Restaurant::all()
         );
     }
 
@@ -82,10 +82,11 @@ class RestaurantController extends Controller
                 $note
             );
         }
+
         catch (Exception $e)
         {
             return response()->json([
-                "message" => "Unauthorize operation."
+                "message" => $e
             ],403);
         }
 

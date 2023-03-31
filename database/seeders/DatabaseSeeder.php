@@ -21,10 +21,15 @@ class DatabaseSeeder extends Seeder
     {
         Type::factory(4)->create();
 
-        User::factory(10)->create()->each(function($user) {
-            Restaurant::factory()->create([
-                'user_id' => $user->id
-            ])->types()->save(Type::all()->random());
+        User::factory(500)->create()->each(function($user) {
+
+                Restaurant::factory()->create([
+                    'user_id' => $user->id
+                ])->types()->save(Type::all()->random());
+                Restaurant::factory()->create([
+                    'user_id' => $user->id
+                ])->types()->save(Type::all()->random());
+
 
             $user->types()->save(Type::all()->random());
         });
