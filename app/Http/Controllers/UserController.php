@@ -32,4 +32,10 @@ class UserController extends Controller
         }
         return new RestaurantCollection($restaurant->random(10));
     }
+
+    public function userRestaurant(Request $request) : RestaurantCollection
+    {
+        $restaurants = Restaurant::where('user_id', Auth::user()->id)->get();
+        return new RestaurantCollection($restaurants);
+    }
 }

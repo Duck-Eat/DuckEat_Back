@@ -6,9 +6,20 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use DateTime;
+use DateInterval;
 
 class AuthController extends Controller
 {
+    public function tokenExpires(): String
+    {
+        $minutes_to_add = 1;
+
+        $time = new DateTime(date("Y-m-d H:i:s"));
+        $time->add(new DateInterval('PT' . $minutes_to_add . 'M'));
+
+        return $time->format('Y-m-d H:i');
+    }
     /**
      * Returns json token
      *
@@ -105,7 +116,8 @@ class AuthController extends Controller
 
         return response()->json([
             'user' => $user,
-            'token' => $token
+            'token' => $token,
+            'expires' => $this->tokenExpires()
         ], 201);
     }
     /**
@@ -178,7 +190,8 @@ class AuthController extends Controller
             $token = $user->createToken('DuckEat')->plainTextToken;
             return response()->json([
                 'user' => $user,
-                'token' => $token
+                'token' => $token,
+                'expires' => $this->tokenExpires()
             ], 200);
         } else {
             return response()->json(['error' => 'Unauthorized'], 401);
