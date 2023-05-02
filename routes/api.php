@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FavorisController;
 use App\Http\Controllers\PreferenceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/user/random', [UserController::class, 'randomRestaurant']);
     Route::get('/user/restaurants', [UserController::class, 'userRestaurant']);
+
+    Route::apiResource('/favoris', FavorisController::class);
+
 
 });
 Route::post('/register', [AuthController::class, 'register']);

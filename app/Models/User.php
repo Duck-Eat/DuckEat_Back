@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Type::class, 'users_types', 'user_id', 'type_id');
     }
+
+    public function favoris(): HasMany
+    {
+        return $this->hasMany(Favoris::class,'user_id');
+    }
 }
