@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatBotController;
 use App\Http\Controllers\FavorisController;
 use App\Http\Controllers\PreferenceController;
 use App\Http\Controllers\UserController;
@@ -30,6 +31,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/restaurants/uploadImage/{restaurant}', [RestaurantController::class,'uploadImage']);
     Route::post('/restaurants/note/',[RestaurantController::class, 'addNote']);
     Route::get('/restaurants/note/{restaurant}',[RestaurantController::class, 'getNote']);
+
+    Route::post('/chatbot',[ChatBotController::class, 'index']);
 
     Route::apiResource('/preferences', PreferenceController::class);
 
